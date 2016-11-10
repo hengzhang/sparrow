@@ -146,6 +146,7 @@ public class THostPort implements org.apache.thrift.TBase<THostPort, THostPort._
     return new THostPort(this);
   }
 
+  @Override
   public void clear() {
     this.host = null;
     setPortIsSet(false);
@@ -357,7 +358,7 @@ public class THostPort implements org.apache.thrift.TBase<THostPort, THostPort._
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -367,7 +368,7 @@ public class THostPort implements org.apache.thrift.TBase<THostPort, THostPort._
       __isset_bit_vector = new BitSet(1);
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

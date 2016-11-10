@@ -117,4 +117,9 @@ public class FifoTaskScheduler extends TaskScheduler {
   int getMaxActiveTasks() {
     return maxActiveTasks;
   }
+
+  @Override
+  int getActiveTasks(){
+	  return activeTasks.intValue();
+  }
 }

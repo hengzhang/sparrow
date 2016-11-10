@@ -167,6 +167,7 @@ public class TFullTaskId implements org.apache.thrift.TBase<TFullTaskId, TFullTa
     return new TFullTaskId(this);
   }
 
+  @Override
   public void clear() {
     this.taskId = null;
     this.requestId = null;
@@ -512,7 +513,7 @@ public class TFullTaskId implements org.apache.thrift.TBase<TFullTaskId, TFullTa
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -520,7 +521,7 @@ public class TFullTaskId implements org.apache.thrift.TBase<TFullTaskId, TFullTa
     try {
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

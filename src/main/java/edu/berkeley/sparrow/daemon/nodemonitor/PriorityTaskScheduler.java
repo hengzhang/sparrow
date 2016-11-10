@@ -147,4 +147,9 @@ public class PriorityTaskScheduler extends TaskScheduler {
     return maxActiveTasks;
   }
 
+
+  @Override
+  int getActiveTasks(){
+	  return activeTasks.intValue();
+  }
 }

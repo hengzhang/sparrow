@@ -144,6 +144,7 @@ public class TTaskLaunchSpec implements org.apache.thrift.TBase<TTaskLaunchSpec,
     return new TTaskLaunchSpec(this);
   }
 
+  @Override
   public void clear() {
     this.taskId = null;
     this.message = null;
@@ -369,7 +370,7 @@ public class TTaskLaunchSpec implements org.apache.thrift.TBase<TTaskLaunchSpec,
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -377,7 +378,7 @@ public class TTaskLaunchSpec implements org.apache.thrift.TBase<TTaskLaunchSpec,
     try {
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

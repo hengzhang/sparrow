@@ -145,6 +145,7 @@ public abstract class TaskScheduler {
   }
 
   // TASK SCHEDULERS MUST IMPLEMENT THE FOLLOWING.
+  abstract int getActiveTasks();
 
   /**
    * Handles a task reservation. Returns the number of queued reservations.
@@ -156,6 +157,7 @@ public abstract class TaskScheduler {
    * reservations cancelled.
    */
   abstract int cancelTaskReservations(String requestId);
+
 
   /**
    * Handles the completion of a task that has finished executing.

@@ -59,4 +59,9 @@ public class NoQueueTaskScheduler extends TaskScheduler {
     return -1;
   }
 
+  @Override
+  int getActiveTasks(){
+	return -1;
+  }
+
 }

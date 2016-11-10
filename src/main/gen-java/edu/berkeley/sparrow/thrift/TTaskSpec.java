@@ -156,6 +156,7 @@ public class TTaskSpec implements org.apache.thrift.TBase<TTaskSpec, TTaskSpec._
     return new TTaskSpec(this);
   }
 
+  @Override
   public void clear() {
     this.taskId = null;
     this.preference = null;
@@ -446,7 +447,7 @@ public class TTaskSpec implements org.apache.thrift.TBase<TTaskSpec, TTaskSpec._
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -454,7 +455,7 @@ public class TTaskSpec implements org.apache.thrift.TBase<TTaskSpec, TTaskSpec._
     try {
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

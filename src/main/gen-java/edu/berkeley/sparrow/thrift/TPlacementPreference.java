@@ -168,6 +168,7 @@ public class TPlacementPreference implements org.apache.thrift.TBase<TPlacementP
     return new TPlacementPreference(this);
   }
 
+  @Override
   public void clear() {
     this.nodes = null;
     this.racks = null;
@@ -474,7 +475,7 @@ public class TPlacementPreference implements org.apache.thrift.TBase<TPlacementP
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -484,7 +485,7 @@ public class TPlacementPreference implements org.apache.thrift.TBase<TPlacementP
       __isset_bit_vector = new BitSet(1);
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

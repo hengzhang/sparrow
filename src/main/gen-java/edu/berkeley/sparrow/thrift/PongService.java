@@ -273,6 +273,7 @@ public class PongService {
       return new ping_args(this);
     }
 
+    @Override
     public void clear() {
       this.data = null;
     }
@@ -423,7 +424,7 @@ public class PongService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -431,7 +432,7 @@ public class PongService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -625,6 +626,7 @@ public class PongService {
       return new ping_result(this);
     }
 
+    @Override
     public void clear() {
       this.success = null;
     }
@@ -775,7 +777,7 @@ public class PongService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -783,7 +785,7 @@ public class PongService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 

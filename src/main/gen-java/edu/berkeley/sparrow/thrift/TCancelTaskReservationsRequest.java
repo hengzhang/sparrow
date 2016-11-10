@@ -131,6 +131,7 @@ public class TCancelTaskReservationsRequest implements org.apache.thrift.TBase<T
     return new TCancelTaskReservationsRequest(this);
   }
 
+  @Override
   public void clear() {
     this.requestId = null;
   }
@@ -281,7 +282,7 @@ public class TCancelTaskReservationsRequest implements org.apache.thrift.TBase<T
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -289,7 +290,7 @@ public class TCancelTaskReservationsRequest implements org.apache.thrift.TBase<T
     try {
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

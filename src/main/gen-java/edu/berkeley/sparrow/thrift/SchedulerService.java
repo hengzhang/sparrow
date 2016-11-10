@@ -455,6 +455,7 @@ public class SchedulerService {
       return new registerFrontend_args(this);
     }
 
+    @Override
     public void clear() {
       this.app = null;
       this.socketAddress = null;
@@ -670,7 +671,7 @@ public class SchedulerService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -678,7 +679,7 @@ public class SchedulerService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -898,6 +899,7 @@ public class SchedulerService {
       return new registerFrontend_result(this);
     }
 
+    @Override
     public void clear() {
       setSuccessIsSet(false);
       this.success = false;
@@ -1044,17 +1046,15 @@ public class SchedulerService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
-        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
-        __isset_bit_vector = new BitSet(1);
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1246,6 +1246,7 @@ public class SchedulerService {
       return new submitJob_args(this);
     }
 
+    @Override
     public void clear() {
       this.req = null;
     }
@@ -1396,7 +1397,7 @@ public class SchedulerService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1404,7 +1405,7 @@ public class SchedulerService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1600,6 +1601,7 @@ public class SchedulerService {
       return new submitJob_result(this);
     }
 
+    @Override
     public void clear() {
       this.e = null;
     }
@@ -1750,7 +1752,7 @@ public class SchedulerService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1758,7 +1760,7 @@ public class SchedulerService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1994,6 +1996,7 @@ public class SchedulerService {
       return new sendFrontendMessage_args(this);
     }
 
+    @Override
     public void clear() {
       this.app = null;
       this.taskId = null;
@@ -2345,7 +2348,7 @@ public class SchedulerService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -2355,7 +2358,7 @@ public class SchedulerService {
         __isset_bit_vector = new BitSet(1);
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -2600,6 +2603,7 @@ public class SchedulerService {
       return new sendFrontendMessage_result(this);
     }
 
+    @Override
     public void clear() {
     }
 
@@ -2686,7 +2690,7 @@ public class SchedulerService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -2694,7 +2698,7 @@ public class SchedulerService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 

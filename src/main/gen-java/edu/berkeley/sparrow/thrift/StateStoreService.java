@@ -343,6 +343,7 @@ public class StateStoreService {
       return new registerScheduler_args(this);
     }
 
+    @Override
     public void clear() {
       this.schedulerAddress = null;
     }
@@ -493,7 +494,7 @@ public class StateStoreService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -501,7 +502,7 @@ public class StateStoreService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -677,6 +678,7 @@ public class StateStoreService {
       return new registerScheduler_result(this);
     }
 
+    @Override
     public void clear() {
     }
 
@@ -763,7 +765,7 @@ public class StateStoreService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -771,7 +773,7 @@ public class StateStoreService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -939,6 +941,7 @@ public class StateStoreService {
       return new registerNodeMonitor_args(this);
     }
 
+    @Override
     public void clear() {
       this.nodeMonitorAddress = null;
     }
@@ -1089,7 +1092,7 @@ public class StateStoreService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1097,7 +1100,7 @@ public class StateStoreService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1273,6 +1276,7 @@ public class StateStoreService {
       return new registerNodeMonitor_result(this);
     }
 
+    @Override
     public void clear() {
     }
 
@@ -1359,7 +1363,7 @@ public class StateStoreService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -1367,7 +1371,7 @@ public class StateStoreService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 

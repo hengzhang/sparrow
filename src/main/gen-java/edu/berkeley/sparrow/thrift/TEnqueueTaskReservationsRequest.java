@@ -182,6 +182,7 @@ public class TEnqueueTaskReservationsRequest implements org.apache.thrift.TBase<
     return new TEnqueueTaskReservationsRequest(this);
   }
 
+  @Override
   public void clear() {
     this.appId = null;
     this.user = null;
@@ -588,7 +589,7 @@ public class TEnqueueTaskReservationsRequest implements org.apache.thrift.TBase<
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -598,7 +599,7 @@ public class TEnqueueTaskReservationsRequest implements org.apache.thrift.TBase<
       __isset_bit_vector = new BitSet(1);
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

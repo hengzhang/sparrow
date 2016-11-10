@@ -306,6 +306,7 @@ public class FrontendService {
       return new frontendMessage_args(this);
     }
 
+    @Override
     public void clear() {
       this.taskId = null;
       setStatusIsSet(false);
@@ -592,7 +593,7 @@ public class FrontendService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -602,7 +603,7 @@ public class FrontendService {
         __isset_bit_vector = new BitSet(1);
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -824,6 +825,7 @@ public class FrontendService {
       return new frontendMessage_result(this);
     }
 
+    @Override
     public void clear() {
     }
 
@@ -910,7 +912,7 @@ public class FrontendService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -918,7 +920,7 @@ public class FrontendService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 

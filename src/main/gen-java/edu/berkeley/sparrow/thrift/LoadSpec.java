@@ -134,6 +134,7 @@ public class LoadSpec implements org.apache.thrift.TBase<LoadSpec, LoadSpec._Fie
     return new LoadSpec(this);
   }
 
+  @Override
   public void clear() {
     setLoadIsSet(false);
     this.load = 0.0;
@@ -280,7 +281,7 @@ public class LoadSpec implements org.apache.thrift.TBase<LoadSpec, LoadSpec._Fie
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -290,7 +291,7 @@ public class LoadSpec implements org.apache.thrift.TBase<LoadSpec, LoadSpec._Fie
       __isset_bit_vector = new BitSet(1);
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

@@ -143,6 +143,7 @@ public class TNodeState implements org.apache.thrift.TBase<TNodeState, TNodeStat
     return new TNodeState(this);
   }
 
+  @Override
   public void clear() {
     this.sparrowUsage = null;
     this.externalUsage = null;
@@ -358,7 +359,7 @@ public class TNodeState implements org.apache.thrift.TBase<TNodeState, TNodeStat
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -366,7 +367,7 @@ public class TNodeState implements org.apache.thrift.TBase<TNodeState, TNodeStat
     try {
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

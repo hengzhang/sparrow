@@ -289,6 +289,7 @@ public class GetTaskService {
       return new getTask_args(this);
     }
 
+    @Override
     public void clear() {
       this.requestId = null;
       this.nodeMonitorAddress = null;
@@ -504,7 +505,7 @@ public class GetTaskService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -512,7 +513,7 @@ public class GetTaskService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -736,6 +737,7 @@ public class GetTaskService {
       return new getTask_result(this);
     }
 
+    @Override
     public void clear() {
       this.success = null;
     }
@@ -901,7 +903,7 @@ public class GetTaskService {
       try {
         write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 
@@ -909,7 +911,7 @@ public class GetTaskService {
       try {
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
-        throw new java.io.IOException(te.getMessage());
+        throw new java.io.IOException(te);
       }
     }
 

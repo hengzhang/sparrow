@@ -158,6 +158,7 @@ public class TUserGroupInfo implements org.apache.thrift.TBase<TUserGroupInfo, T
     return new TUserGroupInfo(this);
   }
 
+  @Override
   public void clear() {
     this.user = null;
     this.group = null;
@@ -434,7 +435,7 @@ public class TUserGroupInfo implements org.apache.thrift.TBase<TUserGroupInfo, T
     try {
       write(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(out)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 
@@ -444,7 +445,7 @@ public class TUserGroupInfo implements org.apache.thrift.TBase<TUserGroupInfo, T
       __isset_bit_vector = new BitSet(1);
       read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
     } catch (org.apache.thrift.TException te) {
-      throw new java.io.IOException(te.getMessage());
+      throw new java.io.IOException(te);
     }
   }
 

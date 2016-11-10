@@ -106,6 +106,9 @@ public class NodeMonitor {
     taskLauncherService.initialize(conf, scheduler, nodeMonitorInternalPort);
   }
 
+  public int getActiveTasks(){
+	  return scheduler.getActiveTasks();
+  }
   /**
    * Registers the backend with assumed 0 load, and returns true if successful.
    * Returns false if the backend was already registered.

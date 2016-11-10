@@ -82,7 +82,7 @@ service InternalService {
   bool enqueueTaskReservations(1: types.TEnqueueTaskReservationsRequest request);
 
   # Cancels reservations for jobs for which all tasks have already been launched.
-  void cancelTaskReservations(1: types.TCancelTaskReservationsRequest request);
+  string cancelTaskReservations(1: types.TCancelTaskReservationsRequest request);
 }
 
 service SchedulerStateStoreService {
