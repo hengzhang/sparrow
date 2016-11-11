@@ -33,7 +33,7 @@ public class InternalService {
 
     public boolean enqueueTaskReservations(edu.berkeley.sparrow.thrift.TEnqueueTaskReservationsRequest request) throws org.apache.thrift.TException;
 
-    public String cancelTaskReservations(edu.berkeley.sparrow.thrift.TCancelTaskReservationsRequest request) throws org.apache.thrift.TException;
+    public int cancelTaskReservations(edu.berkeley.sparrow.thrift.TCancelTaskReservationsRequest request) throws org.apache.thrift.TException;
 
   }
 
@@ -88,7 +88,7 @@ public class InternalService {
       throw new org.apache.thrift.TApplicationException(org.apache.thrift.TApplicationException.MISSING_RESULT, "enqueueTaskReservations failed: unknown result");
     }
 
-    public String cancelTaskReservations(edu.berkeley.sparrow.thrift.TCancelTaskReservationsRequest request) throws org.apache.thrift.TException
+    public int cancelTaskReservations(edu.berkeley.sparrow.thrift.TCancelTaskReservationsRequest request) throws org.apache.thrift.TException
     {
       send_cancelTaskReservations(request);
       return recv_cancelTaskReservations();
@@ -101,7 +101,7 @@ public class InternalService {
       sendBase("cancelTaskReservations", args);
     }
 
-    public String recv_cancelTaskReservations() throws org.apache.thrift.TException
+    public int recv_cancelTaskReservations() throws org.apache.thrift.TException
     {
       cancelTaskReservations_result result = new cancelTaskReservations_result();
       receiveBase(result, "cancelTaskReservations");
@@ -183,7 +183,7 @@ public class InternalService {
         prot.writeMessageEnd();
       }
 
-      public String getResult() throws org.apache.thrift.TException {
+      public int getResult() throws org.apache.thrift.TException {
         if (getState() != org.apache.thrift.async.TAsyncMethodCall.State.RESPONSE_READ) {
           throw new IllegalStateException("Method call not finished!");
         }
@@ -240,6 +240,7 @@ public class InternalService {
       protected cancelTaskReservations_result getResult(I iface, cancelTaskReservations_args args) throws org.apache.thrift.TException {
         cancelTaskReservations_result result = new cancelTaskReservations_result();
         result.success = iface.cancelTaskReservations(args.request);
+        result.setSuccessIsSet(true);
         return result;
       }
     }
@@ -1309,7 +1310,7 @@ public class InternalService {
   public static class cancelTaskReservations_result implements org.apache.thrift.TBase<cancelTaskReservations_result, cancelTaskReservations_result._Fields>, java.io.Serializable, Cloneable   {
     private static final org.apache.thrift.protocol.TStruct STRUCT_DESC = new org.apache.thrift.protocol.TStruct("cancelTaskReservations_result");
 
-    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.STRING, (short)0);
+    private static final org.apache.thrift.protocol.TField SUCCESS_FIELD_DESC = new org.apache.thrift.protocol.TField("success", org.apache.thrift.protocol.TType.I32, (short)0);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -1317,7 +1318,7 @@ public class InternalService {
       schemes.put(TupleScheme.class, new cancelTaskReservations_resultTupleSchemeFactory());
     }
 
-    public String success; // required
+    public int success; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
@@ -1378,11 +1379,13 @@ public class InternalService {
     }
 
     // isset id assignments
+    private static final int __SUCCESS_ISSET_ID = 0;
+    private BitSet __isset_bit_vector = new BitSet(1);
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
       tmpMap.put(_Fields.SUCCESS, new org.apache.thrift.meta_data.FieldMetaData("success", org.apache.thrift.TFieldRequirementType.DEFAULT, 
-          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(cancelTaskReservations_result.class, metaDataMap);
     }
@@ -1391,19 +1394,20 @@ public class InternalService {
     }
 
     public cancelTaskReservations_result(
-      String success)
+      int success)
     {
       this();
       this.success = success;
+      setSuccessIsSet(true);
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public cancelTaskReservations_result(cancelTaskReservations_result other) {
-      if (other.isSetSuccess()) {
-        this.success = other.success;
-      }
+      __isset_bit_vector.clear();
+      __isset_bit_vector.or(other.__isset_bit_vector);
+      this.success = other.success;
     }
 
     public cancelTaskReservations_result deepCopy() {
@@ -1412,31 +1416,31 @@ public class InternalService {
 
     @Override
     public void clear() {
-      this.success = null;
+      setSuccessIsSet(false);
+      this.success = 0;
     }
 
-    public String getSuccess() {
+    public int getSuccess() {
       return this.success;
     }
 
-    public cancelTaskReservations_result setSuccess(String success) {
+    public cancelTaskReservations_result setSuccess(int success) {
       this.success = success;
+      setSuccessIsSet(true);
       return this;
     }
 
     public void unsetSuccess() {
-      this.success = null;
+      __isset_bit_vector.clear(__SUCCESS_ISSET_ID);
     }
 
     /** Returns true if field success is set (has been assigned a value) and false otherwise */
     public boolean isSetSuccess() {
-      return this.success != null;
+      return __isset_bit_vector.get(__SUCCESS_ISSET_ID);
     }
 
     public void setSuccessIsSet(boolean value) {
-      if (!value) {
-        this.success = null;
-      }
+      __isset_bit_vector.set(__SUCCESS_ISSET_ID, value);
     }
 
     public void setFieldValue(_Fields field, Object value) {
@@ -1445,7 +1449,7 @@ public class InternalService {
         if (value == null) {
           unsetSuccess();
         } else {
-          setSuccess((String)value);
+          setSuccess((Integer)value);
         }
         break;
 
@@ -1455,7 +1459,7 @@ public class InternalService {
     public Object getFieldValue(_Fields field) {
       switch (field) {
       case SUCCESS:
-        return getSuccess();
+        return Integer.valueOf(getSuccess());
 
       }
       throw new IllegalStateException();
@@ -1487,12 +1491,12 @@ public class InternalService {
       if (that == null)
         return false;
 
-      boolean this_present_success = true && this.isSetSuccess();
-      boolean that_present_success = true && that.isSetSuccess();
+      boolean this_present_success = true;
+      boolean that_present_success = true;
       if (this_present_success || that_present_success) {
         if (!(this_present_success && that_present_success))
           return false;
-        if (!this.success.equals(that.success))
+        if (this.success != that.success)
           return false;
       }
 
@@ -1543,11 +1547,7 @@ public class InternalService {
       boolean first = true;
 
       sb.append("success:");
-      if (this.success == null) {
-        sb.append("null");
-      } else {
-        sb.append(this.success);
-      }
+      sb.append(this.success);
       first = false;
       sb.append(")");
       return sb.toString();
@@ -1592,8 +1592,8 @@ public class InternalService {
           }
           switch (schemeField.id) {
             case 0: // SUCCESS
-              if (schemeField.type == org.apache.thrift.protocol.TType.STRING) {
-                struct.success = iprot.readString();
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.success = iprot.readI32();
                 struct.setSuccessIsSet(true);
               } else { 
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
@@ -1614,11 +1614,9 @@ public class InternalService {
         struct.validate();
 
         oprot.writeStructBegin(STRUCT_DESC);
-        if (struct.success != null) {
-          oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
-          oprot.writeString(struct.success);
-          oprot.writeFieldEnd();
-        }
+        oprot.writeFieldBegin(SUCCESS_FIELD_DESC);
+        oprot.writeI32(struct.success);
+        oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -1642,7 +1640,7 @@ public class InternalService {
         }
         oprot.writeBitSet(optionals, 1);
         if (struct.isSetSuccess()) {
-          oprot.writeString(struct.success);
+          oprot.writeI32(struct.success);
         }
       }
 
@@ -1651,7 +1649,7 @@ public class InternalService {
         TTupleProtocol iprot = (TTupleProtocol) prot;
         BitSet incoming = iprot.readBitSet(1);
         if (incoming.get(0)) {
-          struct.success = iprot.readString();
+          struct.success = iprot.readI32();
           struct.setSuccessIsSet(true);
         }
       }

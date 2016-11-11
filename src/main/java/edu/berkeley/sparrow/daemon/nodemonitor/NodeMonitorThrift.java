@@ -113,10 +113,10 @@ public class NodeMonitorThrift implements NodeMonitorService.Iface,
   }
 
   @Override
-  public String cancelTaskReservations(TCancelTaskReservationsRequest request)
+  public int cancelTaskReservations(TCancelTaskReservationsRequest request)
       throws TException {
     nodeMonitor.cancelTaskReservations(request.requestId);
 	int temp_available_threads = 16 - nodeMonitor.getActiveTasks();
-	return String.valueOf(temp_available_threads);
+	return (temp_available_threads);
   }
 }

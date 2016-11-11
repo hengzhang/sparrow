@@ -67,12 +67,18 @@ public class CancellationService implements Runnable {
 
       try {
         InternalService.AsyncClient client = clientPool.borrowClient(
+//        InternalService.AsyncClient client = clientPool.borrowClient(
             cancellation.nodeMonitorAddress);
         LOG.debug("Cancelling tasks for request " + cancellation.requestId + " on node " +
             cancellation.nodeMonitorAddress);
-        client.cancelTaskReservations(
+		//int node_threads = client.cancelTaskReservations(
+		CancelTaskReservationsCallback ctrc = new CancelTaskReservationsCallback(cancellation.nodeMonitorAddress);
+		client.cancelTaskReservations(
             new TCancelTaskReservationsRequest(cancellation.requestId),
-            new CancelTaskReservationsCallback(cancellation.nodeMonitorAddress));
+            ctrc);
+//		cancelTaskReservations_call res = ctrc.getResult();
+//		System.out.println(res.getResult());
+
       } catch (Exception e) {
         LOG.error("Error cancelling request " + cancellation.requestId + " on node " +
                   cancellation.nodeMonitorAddress+ ": " + e.getMessage());
@@ -84,15 +90,21 @@ public class CancellationService implements Runnable {
   private class CancelTaskReservationsCallback
   implements AsyncMethodCallback<cancelTaskReservations_call> {
     InetSocketAddress nodeMonitorAddress;
+//	cancelTaskReservations_call response = null;
 
     public CancelTaskReservationsCallback(InetSocketAddress nodeMonitorAddress) {
       this.nodeMonitorAddress = nodeMonitorAddress;
     }
+//	public cancelTaskReservations_call getResult(){
+//		return this.response;
+//	}
 
     @Override
     public void onComplete(cancelTaskReservations_call response) {
       try {
+//		this.response = response;
         clientPool.returnClient(nodeMonitorAddress, (AsyncClient) response.getClient());
+		System.out.println(response.getResult());
       } catch (Exception e) {
         LOG.error("Error returning client to node monitor client pool: " + e);
       }
@@ -102,7 +114,6 @@ public class CancellationService implements Runnable {
     public void onError(Exception exception) {
       LOG.error("Error executing cancelTaskReservations RPC: " + exception);
     }
-
   }
 
 }
