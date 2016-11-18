@@ -29,9 +29,12 @@ import edu.berkeley.sparrow.thrift.InternalService.AsyncClient;
 import edu.berkeley.sparrow.thrift.InternalService.AsyncClient.cancelTaskReservations_call;
 import edu.berkeley.sparrow.thrift.TCancelTaskReservationsRequest;
 import edu.berkeley.sparrow.thrift.THostPort;
+import java.util.HashMap;
 
 public class CancellationService implements Runnable {
   private ThriftClientPool<InternalService.AsyncClient> clientPool;
+  private HashMap<InetSocketAddress, Integer> clientUsages =
+	  new HashMap<InetSocketAddress, Integer>();
   private final BlockingQueue<Cancellation> cancellationQueue;
   private final static Logger LOG = Logger.getLogger(CancellationService.class);
 
@@ -55,7 +58,12 @@ public class CancellationService implements Runnable {
         nodeMonitorAddress.host, nodeMonitorAddress.port);
     this.cancellationQueue.add(new Cancellation(requestId, socketAddress));
   }
-
+  public HashMap<InetSocketAddress, Integer> getClientUsages(){
+	  return clientUsages;
+  }
+  public void clearClientUsages(){
+	  clientUsages.clear();
+  }
   public void run() {
     while (true) {
       Cancellation cancellation = null;
@@ -64,10 +72,8 @@ public class CancellationService implements Runnable {
       } catch (InterruptedException e) {
         LOG.fatal(e);
       }
-
       try {
         InternalService.AsyncClient client = clientPool.borrowClient(
-//        InternalService.AsyncClient client = clientPool.borrowClient(
             cancellation.nodeMonitorAddress);
         LOG.debug("Cancelling tasks for request " + cancellation.requestId + " on node " +
             cancellation.nodeMonitorAddress);
@@ -76,8 +82,6 @@ public class CancellationService implements Runnable {
 		client.cancelTaskReservations(
             new TCancelTaskReservationsRequest(cancellation.requestId),
             ctrc);
-//		cancelTaskReservations_call res = ctrc.getResult();
-//		System.out.println(res.getResult());
 
       } catch (Exception e) {
         LOG.error("Error cancelling request " + cancellation.requestId + " on node " +
@@ -104,7 +108,12 @@ public class CancellationService implements Runnable {
       try {
 //		this.response = response;
         clientPool.returnClient(nodeMonitorAddress, (AsyncClient) response.getClient());
-		System.out.println(response.getResult());
+		if(clientUsages.containsKey(nodeMonitorAddress)){
+			clientUsages.put(nodeMonitorAddress, new Integer(response.getResult()));
+		}else{
+			clientUsages.put(nodeMonitorAddress, new Integer(response.getResult()));
+		}
+//		System.out.println(response.getResult());
       } catch (Exception e) {
         LOG.error("Error returning client to node monitor client pool: " + e);
       }

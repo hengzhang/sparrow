@@ -70,6 +70,10 @@ public class Scheduler {
 
   private THostPort address;
 
+  /*For recording the resources usage of nodemonitor*/
+  HashMap<InetSocketAddress, Integer> nmUsages = 
+	  new HashMap<InetSocketAddress, Integer>();
+
   /** Socket addresses for each frontend. */
   HashMap<String, InetSocketAddress> frontendSockets =
       new HashMap<String, InetSocketAddress>();
@@ -146,6 +150,8 @@ public class Scheduler {
 
     spreadEvenlyTaskSetSize = conf.getInt(SparrowConf.SPREAD_EVENLY_TASK_SET_SIZE,
     				SparrowConf.DEFAULT_SPREAD_EVENLY_TASK_SET_SIZE);
+
+//	nmUsages.put();
   }
 
   public boolean registerFrontend(String appId, String addr) {
@@ -408,6 +414,17 @@ public class Scheduler {
               taskPlacer.getOutstandingNodeMonitorsForCancellation();
           for (THostPort nodeMonitorToCancel : outstandingNodeMonitors) {
             cancellationService.addCancellation(requestId, nodeMonitorToCancel);
+			//sync usages from cancellationservice
+			HashMap<InetSocketAddress, Integer> tmp_cancelU = cancellationService.getClientUsages();
+			for(InetSocketAddress is : tmp_cancelU.keySet()){
+				//nmUsages.
+				if(nmUsages.containsKey(is)){
+					nmUsages.put(is, tmp_cancelU.get(is));
+				}else{
+					nmUsages.put(is, tmp_cancelU.get(is));
+				}
+			}
+
           }
         }
       }

@@ -133,7 +133,7 @@ public class TaskLauncherService {
           nodeMonitorInternalAddress.getHost()));
       List<TTaskLaunchSpec> taskLaunchSpecs;
       try {
-        taskLaunchSpecs = getTaskClient.getTask(task.requestId, nodeMonitorInternalAddress);
+        taskLaunchSpecs = getTaskClient.getTask(task.requestId, nodeMonitorInternalAddress, 16 - scheduler.getActiveTasks());
       } catch (TException e) {
         LOG.error("Error when launching getTask RPC:" + e.getMessage());
         List<TTaskLaunchSpec> emptyTaskLaunchSpecs = Lists.newArrayList();

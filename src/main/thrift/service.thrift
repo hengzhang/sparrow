@@ -43,7 +43,7 @@ service GetTaskService {
   # node.
   # TODO: Add a numTasks parameter to signal how many slots are free, and support
   #       returning more than 1 tasks.
-  list<types.TTaskLaunchSpec> getTask(1: string requestId, 2: types.THostPort nodeMonitorAddress);
+  list<types.TTaskLaunchSpec> getTask(1: string requestId, 2: types.THostPort nodeMonitorAddress, 3: i32 slotNum);
 }
 
 # A service used by application backends to coordinate with Sparrow.

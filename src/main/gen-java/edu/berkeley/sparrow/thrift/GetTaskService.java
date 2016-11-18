@@ -31,13 +31,13 @@ public class GetTaskService {
 
   public interface Iface {
 
-    public List<edu.berkeley.sparrow.thrift.TTaskLaunchSpec> getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress) throws org.apache.thrift.TException;
+    public List<edu.berkeley.sparrow.thrift.TTaskLaunchSpec> getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, int slotNum) throws org.apache.thrift.TException;
 
   }
 
   public interface AsyncIface {
 
-    public void getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getTask_call> resultHandler) throws org.apache.thrift.TException;
+    public void getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, int slotNum, org.apache.thrift.async.AsyncMethodCallback<AsyncClient.getTask_call> resultHandler) throws org.apache.thrift.TException;
 
   }
 
@@ -61,17 +61,18 @@ public class GetTaskService {
       super(iprot, oprot);
     }
 
-    public List<edu.berkeley.sparrow.thrift.TTaskLaunchSpec> getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress) throws org.apache.thrift.TException
+    public List<edu.berkeley.sparrow.thrift.TTaskLaunchSpec> getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, int slotNum) throws org.apache.thrift.TException
     {
-      send_getTask(requestId, nodeMonitorAddress);
+      send_getTask(requestId, nodeMonitorAddress, slotNum);
       return recv_getTask();
     }
 
-    public void send_getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress) throws org.apache.thrift.TException
+    public void send_getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, int slotNum) throws org.apache.thrift.TException
     {
       getTask_args args = new getTask_args();
       args.setRequestId(requestId);
       args.setNodeMonitorAddress(nodeMonitorAddress);
+      args.setSlotNum(slotNum);
       sendBase("getTask", args);
     }
 
@@ -103,9 +104,9 @@ public class GetTaskService {
       super(protocolFactory, clientManager, transport);
     }
 
-    public void getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, org.apache.thrift.async.AsyncMethodCallback<getTask_call> resultHandler) throws org.apache.thrift.TException {
+    public void getTask(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, int slotNum, org.apache.thrift.async.AsyncMethodCallback<getTask_call> resultHandler) throws org.apache.thrift.TException {
       checkReady();
-      getTask_call method_call = new getTask_call(requestId, nodeMonitorAddress, resultHandler, this, ___protocolFactory, ___transport);
+      getTask_call method_call = new getTask_call(requestId, nodeMonitorAddress, slotNum, resultHandler, this, ___protocolFactory, ___transport);
       this.___currentMethod = method_call;
       ___manager.call(method_call);
     }
@@ -113,10 +114,12 @@ public class GetTaskService {
     public static class getTask_call extends org.apache.thrift.async.TAsyncMethodCall {
       private String requestId;
       private edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress;
-      public getTask_call(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, org.apache.thrift.async.AsyncMethodCallback<getTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
+      private int slotNum;
+      public getTask_call(String requestId, edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress, int slotNum, org.apache.thrift.async.AsyncMethodCallback<getTask_call> resultHandler, org.apache.thrift.async.TAsyncClient client, org.apache.thrift.protocol.TProtocolFactory protocolFactory, org.apache.thrift.transport.TNonblockingTransport transport) throws org.apache.thrift.TException {
         super(client, protocolFactory, transport, resultHandler, false);
         this.requestId = requestId;
         this.nodeMonitorAddress = nodeMonitorAddress;
+        this.slotNum = slotNum;
       }
 
       public void write_args(org.apache.thrift.protocol.TProtocol prot) throws org.apache.thrift.TException {
@@ -124,6 +127,7 @@ public class GetTaskService {
         getTask_args args = new getTask_args();
         args.setRequestId(requestId);
         args.setNodeMonitorAddress(nodeMonitorAddress);
+        args.setSlotNum(slotNum);
         args.write(prot);
         prot.writeMessageEnd();
       }
@@ -166,7 +170,7 @@ public class GetTaskService {
 
       protected getTask_result getResult(I iface, getTask_args args) throws org.apache.thrift.TException {
         getTask_result result = new getTask_result();
-        result.success = iface.getTask(args.requestId, args.nodeMonitorAddress);
+        result.success = iface.getTask(args.requestId, args.nodeMonitorAddress, args.slotNum);
         return result;
       }
     }
@@ -178,6 +182,7 @@ public class GetTaskService {
 
     private static final org.apache.thrift.protocol.TField REQUEST_ID_FIELD_DESC = new org.apache.thrift.protocol.TField("requestId", org.apache.thrift.protocol.TType.STRING, (short)1);
     private static final org.apache.thrift.protocol.TField NODE_MONITOR_ADDRESS_FIELD_DESC = new org.apache.thrift.protocol.TField("nodeMonitorAddress", org.apache.thrift.protocol.TType.STRUCT, (short)2);
+    private static final org.apache.thrift.protocol.TField SLOT_NUM_FIELD_DESC = new org.apache.thrift.protocol.TField("slotNum", org.apache.thrift.protocol.TType.I32, (short)3);
 
     private static final Map<Class<? extends IScheme>, SchemeFactory> schemes = new HashMap<Class<? extends IScheme>, SchemeFactory>();
     static {
@@ -187,11 +192,13 @@ public class GetTaskService {
 
     public String requestId; // required
     public edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress; // required
+    public int slotNum; // required
 
     /** The set of fields this struct contains, along with convenience methods for finding and manipulating them. */
     public enum _Fields implements org.apache.thrift.TFieldIdEnum {
       REQUEST_ID((short)1, "requestId"),
-      NODE_MONITOR_ADDRESS((short)2, "nodeMonitorAddress");
+      NODE_MONITOR_ADDRESS((short)2, "nodeMonitorAddress"),
+      SLOT_NUM((short)3, "slotNum");
 
       private static final Map<String, _Fields> byName = new HashMap<String, _Fields>();
 
@@ -210,6 +217,8 @@ public class GetTaskService {
             return REQUEST_ID;
           case 2: // NODE_MONITOR_ADDRESS
             return NODE_MONITOR_ADDRESS;
+          case 3: // SLOT_NUM
+            return SLOT_NUM;
           default:
             return null;
         }
@@ -250,6 +259,8 @@ public class GetTaskService {
     }
 
     // isset id assignments
+    private static final int __SLOTNUM_ISSET_ID = 0;
+    private BitSet __isset_bit_vector = new BitSet(1);
     public static final Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> metaDataMap;
     static {
       Map<_Fields, org.apache.thrift.meta_data.FieldMetaData> tmpMap = new EnumMap<_Fields, org.apache.thrift.meta_data.FieldMetaData>(_Fields.class);
@@ -257,6 +268,8 @@ public class GetTaskService {
           new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.STRING)));
       tmpMap.put(_Fields.NODE_MONITOR_ADDRESS, new org.apache.thrift.meta_data.FieldMetaData("nodeMonitorAddress", org.apache.thrift.TFieldRequirementType.DEFAULT, 
           new org.apache.thrift.meta_data.StructMetaData(org.apache.thrift.protocol.TType.STRUCT, edu.berkeley.sparrow.thrift.THostPort.class)));
+      tmpMap.put(_Fields.SLOT_NUM, new org.apache.thrift.meta_data.FieldMetaData("slotNum", org.apache.thrift.TFieldRequirementType.DEFAULT, 
+          new org.apache.thrift.meta_data.FieldValueMetaData(org.apache.thrift.protocol.TType.I32)));
       metaDataMap = Collections.unmodifiableMap(tmpMap);
       org.apache.thrift.meta_data.FieldMetaData.addStructMetaDataMap(getTask_args.class, metaDataMap);
     }
@@ -266,23 +279,29 @@ public class GetTaskService {
 
     public getTask_args(
       String requestId,
-      edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress)
+      edu.berkeley.sparrow.thrift.THostPort nodeMonitorAddress,
+      int slotNum)
     {
       this();
       this.requestId = requestId;
       this.nodeMonitorAddress = nodeMonitorAddress;
+      this.slotNum = slotNum;
+      setSlotNumIsSet(true);
     }
 
     /**
      * Performs a deep copy on <i>other</i>.
      */
     public getTask_args(getTask_args other) {
+      __isset_bit_vector.clear();
+      __isset_bit_vector.or(other.__isset_bit_vector);
       if (other.isSetRequestId()) {
         this.requestId = other.requestId;
       }
       if (other.isSetNodeMonitorAddress()) {
         this.nodeMonitorAddress = new edu.berkeley.sparrow.thrift.THostPort(other.nodeMonitorAddress);
       }
+      this.slotNum = other.slotNum;
     }
 
     public getTask_args deepCopy() {
@@ -293,6 +312,8 @@ public class GetTaskService {
     public void clear() {
       this.requestId = null;
       this.nodeMonitorAddress = null;
+      setSlotNumIsSet(false);
+      this.slotNum = 0;
     }
 
     public String getRequestId() {
@@ -343,6 +364,29 @@ public class GetTaskService {
       }
     }
 
+    public int getSlotNum() {
+      return this.slotNum;
+    }
+
+    public getTask_args setSlotNum(int slotNum) {
+      this.slotNum = slotNum;
+      setSlotNumIsSet(true);
+      return this;
+    }
+
+    public void unsetSlotNum() {
+      __isset_bit_vector.clear(__SLOTNUM_ISSET_ID);
+    }
+
+    /** Returns true if field slotNum is set (has been assigned a value) and false otherwise */
+    public boolean isSetSlotNum() {
+      return __isset_bit_vector.get(__SLOTNUM_ISSET_ID);
+    }
+
+    public void setSlotNumIsSet(boolean value) {
+      __isset_bit_vector.set(__SLOTNUM_ISSET_ID, value);
+    }
+
     public void setFieldValue(_Fields field, Object value) {
       switch (field) {
       case REQUEST_ID:
@@ -361,6 +405,14 @@ public class GetTaskService {
         }
         break;
 
+      case SLOT_NUM:
+        if (value == null) {
+          unsetSlotNum();
+        } else {
+          setSlotNum((Integer)value);
+        }
+        break;
+
       }
     }
 
@@ -371,6 +423,9 @@ public class GetTaskService {
 
       case NODE_MONITOR_ADDRESS:
         return getNodeMonitorAddress();
+
+      case SLOT_NUM:
+        return Integer.valueOf(getSlotNum());
 
       }
       throw new IllegalStateException();
@@ -387,6 +442,8 @@ public class GetTaskService {
         return isSetRequestId();
       case NODE_MONITOR_ADDRESS:
         return isSetNodeMonitorAddress();
+      case SLOT_NUM:
+        return isSetSlotNum();
       }
       throw new IllegalStateException();
     }
@@ -419,6 +476,15 @@ public class GetTaskService {
         if (!(this_present_nodeMonitorAddress && that_present_nodeMonitorAddress))
           return false;
         if (!this.nodeMonitorAddress.equals(that.nodeMonitorAddress))
+          return false;
+      }
+
+      boolean this_present_slotNum = true;
+      boolean that_present_slotNum = true;
+      if (this_present_slotNum || that_present_slotNum) {
+        if (!(this_present_slotNum && that_present_slotNum))
+          return false;
+        if (this.slotNum != that.slotNum)
           return false;
       }
 
@@ -458,6 +524,16 @@ public class GetTaskService {
           return lastComparison;
         }
       }
+      lastComparison = Boolean.valueOf(isSetSlotNum()).compareTo(typedOther.isSetSlotNum());
+      if (lastComparison != 0) {
+        return lastComparison;
+      }
+      if (isSetSlotNum()) {
+        lastComparison = org.apache.thrift.TBaseHelper.compareTo(this.slotNum, typedOther.slotNum);
+        if (lastComparison != 0) {
+          return lastComparison;
+        }
+      }
       return 0;
     }
 
@@ -493,6 +569,10 @@ public class GetTaskService {
         sb.append(this.nodeMonitorAddress);
       }
       first = false;
+      if (!first) sb.append(", ");
+      sb.append("slotNum:");
+      sb.append(this.slotNum);
+      first = false;
       sb.append(")");
       return sb.toString();
     }
@@ -511,6 +591,8 @@ public class GetTaskService {
 
     private void readObject(java.io.ObjectInputStream in) throws java.io.IOException, ClassNotFoundException {
       try {
+        // it doesn't seem like you should have to do this, but java serialization is wacky, and doesn't call the default constructor.
+        __isset_bit_vector = new BitSet(1);
         read(new org.apache.thrift.protocol.TCompactProtocol(new org.apache.thrift.transport.TIOStreamTransport(in)));
       } catch (org.apache.thrift.TException te) {
         throw new java.io.IOException(te);
@@ -552,6 +634,14 @@ public class GetTaskService {
                 org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
               }
               break;
+            case 3: // SLOT_NUM
+              if (schemeField.type == org.apache.thrift.protocol.TType.I32) {
+                struct.slotNum = iprot.readI32();
+                struct.setSlotNumIsSet(true);
+              } else { 
+                org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
+              }
+              break;
             default:
               org.apache.thrift.protocol.TProtocolUtil.skip(iprot, schemeField.type);
           }
@@ -577,6 +667,9 @@ public class GetTaskService {
           struct.nodeMonitorAddress.write(oprot);
           oprot.writeFieldEnd();
         }
+        oprot.writeFieldBegin(SLOT_NUM_FIELD_DESC);
+        oprot.writeI32(struct.slotNum);
+        oprot.writeFieldEnd();
         oprot.writeFieldStop();
         oprot.writeStructEnd();
       }
@@ -601,19 +694,25 @@ public class GetTaskService {
         if (struct.isSetNodeMonitorAddress()) {
           optionals.set(1);
         }
-        oprot.writeBitSet(optionals, 2);
+        if (struct.isSetSlotNum()) {
+          optionals.set(2);
+        }
+        oprot.writeBitSet(optionals, 3);
         if (struct.isSetRequestId()) {
           oprot.writeString(struct.requestId);
         }
         if (struct.isSetNodeMonitorAddress()) {
           struct.nodeMonitorAddress.write(oprot);
         }
+        if (struct.isSetSlotNum()) {
+          oprot.writeI32(struct.slotNum);
+        }
       }
 
       @Override
       public void read(org.apache.thrift.protocol.TProtocol prot, getTask_args struct) throws org.apache.thrift.TException {
         TTupleProtocol iprot = (TTupleProtocol) prot;
-        BitSet incoming = iprot.readBitSet(2);
+        BitSet incoming = iprot.readBitSet(3);
         if (incoming.get(0)) {
           struct.requestId = iprot.readString();
           struct.setRequestIdIsSet(true);
@@ -622,6 +721,10 @@ public class GetTaskService {
           struct.nodeMonitorAddress = new edu.berkeley.sparrow.thrift.THostPort();
           struct.nodeMonitorAddress.read(iprot);
           struct.setNodeMonitorAddressIsSet(true);
+        }
+        if (incoming.get(2)) {
+          struct.slotNum = iprot.readI32();
+          struct.setSlotNumIsSet(true);
         }
       }
     }

@@ -88,8 +88,9 @@ public class SchedulerThrift implements SchedulerService.Iface, GetTaskService.I
   }
 
   @Override
-  public List<TTaskLaunchSpec> getTask(String requestId, THostPort nodeMonitorAddress)
+  public List<TTaskLaunchSpec> getTask(String requestId, THostPort nodeMonitorAddress, int slotNum)
       throws TException {
+	scheduler.nmUsages.put(new InetSocketAddress(nodeMonitorAddress.getHost(), nodeMonitorAddress.getPort()), slotNum);
     return scheduler.getTask(requestId, nodeMonitorAddress);
   }
 }
