@@ -21,7 +21,9 @@ import java.net.InetSocketAddress;
 import java.nio.ByteBuffer;
 import java.util.Collections;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.List;
+import java.util.Date;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.Set;
@@ -61,6 +63,7 @@ import edu.berkeley.sparrow.thrift.TTaskSpec;
 public class Scheduler {
   private final static Logger LOG = Logger.getLogger(Scheduler.class);
   private final static Logger AUDIT_LOG = Logging.getAuditLogger(Scheduler.class);
+  Date date = new Date();
 
   /** Used to uniquely identify requests arriving at this scheduler. */
   private AtomicInteger counter = new AtomicInteger(0);
@@ -73,6 +76,8 @@ public class Scheduler {
   /*For recording the resources usage of nodemonitor*/
   HashMap<InetSocketAddress, Integer> nmUsages = 
 	  new HashMap<InetSocketAddress, Integer>();
+  HashMap<InetSocketAddress, Long> nmTime = 
+	  new HashMap<InetSocketAddress, Long>();
 
   /** Socket addresses for each frontend. */
   HashMap<String, InetSocketAddress> frontendSockets =
@@ -347,9 +352,9 @@ public class Scheduler {
       }
     } else {
       if (request.isSetProbeRatio()) {
-        taskPlacer = new UnconstrainedTaskPlacer(requestId, request.getProbeRatio());
+        taskPlacer = new UnconstrainedTaskPlacer(requestId, request.getProbeRatio(), nmUsages, nmTime);
       } else {
-        taskPlacer = new UnconstrainedTaskPlacer(requestId, defaultProbeRatioUnconstrained);
+        taskPlacer = new UnconstrainedTaskPlacer(requestId, defaultProbeRatioUnconstrained, nmUsages, nmTime);
       }
     }
     requestTaskPlacers.put(requestId, taskPlacer);
@@ -420,8 +425,10 @@ public class Scheduler {
 				//nmUsages.
 				if(nmUsages.containsKey(is)){
 					nmUsages.put(is, tmp_cancelU.get(is));
+					nmTime.put(is, date.getTime());
 				}else{
 					nmUsages.put(is, tmp_cancelU.get(is));
+					nmTime.put(is, date.getTime());
 				}
 			}
 

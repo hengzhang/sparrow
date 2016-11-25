@@ -16,6 +16,7 @@
 
 package edu.berkeley.sparrow.daemon.scheduler;
 
+import java.util.Iterator;
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.Collections;
@@ -37,6 +38,7 @@ import edu.berkeley.sparrow.thrift.THostPort;
 import edu.berkeley.sparrow.thrift.TSchedulingRequest;
 import edu.berkeley.sparrow.thrift.TTaskLaunchSpec;
 import edu.berkeley.sparrow.thrift.TTaskSpec;
+import java.util.HashMap;
 
 /**
  * A task placer for jobs whose tasks have no placement constraints.
@@ -46,6 +48,9 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
 
   /** Specifications for tasks that have not yet been launched. */
   List<TTaskLaunchSpec> unlaunchedTasks;
+  HashMap<InetSocketAddress, Integer> nmUsages ;
+  HashMap<InetSocketAddress, Long> nmTime ;
+
 
   /**
    * For each node monitor where reservations were enqueued, the number of reservations that were
@@ -63,12 +68,16 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
 
   private double probeRatio;
 
-  UnconstrainedTaskPlacer(String requestId, double probeRatio) {
+  UnconstrainedTaskPlacer(String requestId, double probeRatio, 
+		  HashMap<InetSocketAddress, Integer> in_usage, 
+		  HashMap<InetSocketAddress, Long> in_time) {
     this.requestId = requestId;
     this.probeRatio = probeRatio;
     unlaunchedTasks = new LinkedList<TTaskLaunchSpec>();
     outstandingReservations = new HashMap<THostPort, Integer>();
     cancelled = false;
+	nmUsages = in_usage;
+	nmTime = in_time;
   }
 
   @Override
@@ -79,15 +88,35 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
     LOG.debug(Logging.functionCall(schedulingRequest, requestId, nodes, schedulerAddress));
 
     int numTasks = schedulingRequest.getTasks().size();
-    int reservationsToLaunch = (int) Math.ceil(probeRatio * numTasks);
+    int reservationsToLaunch = (int) Math.ceil((probeRatio - 1) * numTasks);
     LOG.debug("Request " + requestId + ": Creating " + reservationsToLaunch +
               " task reservations for " + numTasks + " tasks");
-
-    // Get a random subset of nodes by shuffling list.
     List<InetSocketAddress> nodeList = Lists.newArrayList(nodes);
+	//1st: get the reservationList from hash table
+	Iterator us_iter = nmUsages.entrySet().iterator();
+	int count = 0;
+	while (us_iter.hasNext()){
+		Map.Entry entry = (Map.Entry) us_iter.next();
+		InetSocketAddress temp_nd = (InetSocketAddress) entry.getKey();
+		Integer temp_us = (Integer) entry.getValue();
+		//node have 5 empty slots(set a dynamic variable)
+		// & the time is fresh (< 1s)
+		if((temp_us > 5) && (nmTime.get(temp_nd) < 1000)){
+			count++;
+			nodeList.add(temp_nd);
+		}
+		if(count > numTasks)
+			break;
+	}
+	
+    //2nd: Get a random subset of nodes by shuffling list.
     Collections.shuffle(nodeList);
-    if (reservationsToLaunch < nodeList.size())
-      nodeList = nodeList.subList(0, reservationsToLaunch);
+    if(reservationsToLaunch < nodeList.size()){
+		for(int i = 0; i< reservationsToLaunch; i++){
+			nodeList.add(nodeList.get(i));
+		}
+	}
+//      nodeList = nodeList.subList(0, reservationsToLaunch);
 
     for (TTaskSpec task : schedulingRequest.getTasks()) {
       TTaskLaunchSpec taskLaunchSpec = new TTaskLaunchSpec(task.getTaskId(),
