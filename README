@@ -41,6 +41,7 @@ of different duration, etc.), described in prototype/ProtoFrontend.java.
 
 
 running the test for googletraces log(init the log4j system for record execution logs):
+mvn package -DskipTests
 start daemon: java -XX:+UseConcMarkSweepGC -cp target/sparrow-1.0-SNAPSHOT.jar edu.berkeley.sparrow.daemon.SparrowDaemon -c sparrow.conf
 start backend: java -cp target/sparrow-1.0-SNAPSHOT.jar edu.berkeley.sparrow.examples.SimpleBackend
 start frontend(with googletrace file): java -cp target/sparrow-1.0-SNAPSHOT.jar edu.berkeley.sparrow.examples.SimpleFrontend -f google_trace/5/1_5_subset_google -l 1000

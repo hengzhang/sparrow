@@ -22,6 +22,10 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ScheduledThreadPoolExecutor;
 import java.util.concurrent.TimeUnit;
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileReader;
 
 import joptsimple.OptionParser;
 import joptsimple.OptionSet;
@@ -114,10 +118,29 @@ public class SimpleFrontend implements FrontendService.Iface {
     try {
       OptionParser parser = new OptionParser();
       parser.accepts("c", "configuration file").withRequiredArg().ofType(String.class);
+      parser.accepts("f", "configuration file").withRequiredArg().ofType(String.class);
+      parser.accepts("l", "configuration file").withRequiredArg().ofType(Integer.class);
       parser.accepts("help", "print help statement");
       OptionSet options = parser.parse(args);
+      String filename = null;
+      int line = 0;
 
       if (options.has("help")) {
+        parser.printHelpOn(System.out);
+        System.exit(-1);
+      }
+
+      if (options.has("f")) {
+	filename = (String) options.valueOf("f");
+      }else{
+        parser.printHelpOn(System.out);
+        System.exit(-1);
+      }
+
+      if (options.has("l")) {
+	Integer temp = (Integer) options.valueOf("l");
+	line = temp.intValue();
+      }else{
         parser.printHelpOn(System.out);
         System.exit(-1);
       }
@@ -138,8 +161,8 @@ public class SimpleFrontend implements FrontendService.Iface {
       int experimentDurationS = conf.getInt(EXPERIMENT_S, DEFAULT_EXPERIMENT_S);
       LOG.debug("Using arrival period of " + arrivalPeriodMillis +
           " milliseconds and running experiment for " + experimentDurationS + " seconds.");
-      int tasksPerJob = conf.getInt(TASKS_PER_JOB, DEFAULT_TASKS_PER_JOB);
-      int taskDurationMillis = conf.getInt(TASK_DURATION_MILLIS, DEFAULT_TASK_DURATION_MILLIS);
+//      int tasksPerJob = conf.getInt(TASKS_PER_JOB, DEFAULT_TASKS_PER_JOB);
+ //     int taskDurationMillis = conf.getInt(TASK_DURATION_MILLIS, DEFAULT_TASK_DURATION_MILLIS);
 
       int schedulerPort = conf.getInt(SCHEDULER_PORT,
           SchedulerThrift.DEFAULT_SCHEDULER_THRIFT_PORT);
@@ -147,9 +170,53 @@ public class SimpleFrontend implements FrontendService.Iface {
       client = new SparrowFrontendClient();
       client.initialize(new InetSocketAddress(schedulerHost, schedulerPort), APPLICATION_ID, this);
 
-      JobLaunchRunnable runnable = new JobLaunchRunnable(tasksPerJob, taskDurationMillis);
+  //    JobLaunchRunnable runnable = new JobLaunchRunnable(tasksPerJob, taskDurationMillis);
+   //   ScheduledThreadPoolExecutor taskLauncher = new ScheduledThreadPoolExecutor(1);
+//      taskLauncher.scheduleAtFixedRate(runnable, 0, arrivalPeriodMillis, TimeUnit.MILLISECONDS);
+      int delayPerJob[] = new int[line];
+      int tasksPerJob[] = new int[line];
+      int taskDurationMillis[] = new int[line];
+      JobLaunchRunnable runnable[] = new JobLaunchRunnable[line];
+      File file = new File(filename);
+      BufferedReader reader = null;
+      try {
+        //System.out.println("以行为单位读取文件内容，一次读一整行：");
+        reader = new BufferedReader(new FileReader(file));
+        String tempString = null;
+        int tline = 0;
+        // 一次读入一行，直到读入null为文件结束
+        while ((tempString = reader.readLine()) != null) {
+          // 显示行号
+          //System.out.println("line " + line + ": " + tempString);
+          if(tline < line){
+             String[] strArray = tempString.split(" ");
+             delayPerJob[tline] = Integer.valueOf(strArray[0]).intValue();
+             tasksPerJob[tline] = Integer.valueOf(strArray[1]).intValue();
+	     double tempduration = Double.valueOf(strArray[2]).doubleValue();
+             taskDurationMillis[tline] = (int)(tempduration*100);
+          }
+          tline++;
+        }
+        reader.close();
+      } catch (Exception e) {
+        e.printStackTrace();
+      } finally {
+        if (reader != null) {
+          try {
+            reader.close();
+          } catch (Exception e1) {
+          }
+        }
+      }
+      for(int i=0;i<line;i++){
+          runnable[i] = new JobLaunchRunnable(tasksPerJob[i],taskDurationMillis[i]);
+      }
+   //   JobLaunchRunnable runnable = new JobLaunchRunnable(tasksPerJob, taskDurationMillis);
+
       ScheduledThreadPoolExecutor taskLauncher = new ScheduledThreadPoolExecutor(1);
-      taskLauncher.scheduleAtFixedRate(runnable, 0, arrivalPeriodMillis, TimeUnit.MILLISECONDS);
+      for(int i = 0;i<line;i++){
+        taskLauncher.schedule(runnable[i], delayPerJob[i], TimeUnit.MILLISECONDS);
+      }
 
       long startTime = System.currentTimeMillis();
       LOG.debug("sleeping");
