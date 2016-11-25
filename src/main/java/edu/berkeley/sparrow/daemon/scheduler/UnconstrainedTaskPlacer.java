@@ -17,6 +17,7 @@
 package edu.berkeley.sparrow.daemon.scheduler;
 
 import java.util.Iterator;
+import java.util.Date;
 import java.net.InetSocketAddress;
 import java.util.Collection;
 import java.util.Collections;
@@ -68,6 +69,8 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
 
   private double probeRatio;
 
+  Date date = new Date();
+
   UnconstrainedTaskPlacer(String requestId, double probeRatio, 
 		  HashMap<InetSocketAddress, Integer> in_usage, 
 		  HashMap<InetSocketAddress, Long> in_time) {
@@ -102,23 +105,23 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
 		Integer temp_us = (Integer) entry.getValue();
 		//node have 5 empty slots(set a dynamic variable)
 		// & the time is fresh (< 1s)
-		if((temp_us > 5) && (nmTime.get(temp_nd) < 1000)){
+		if((temp_us > 5) && ((date.getTime() - nmTime.get(temp_nd)) < 1000)){
 			count++;
 			nodeList.add(temp_nd);
 		}
-		if(count > numTasks)
+		if(count >= numTasks)
 			break;
 	}
+    LOG.debug("Allot to " + count + " tasks using hashtable; total nodes: "+tmp_nl.size()); 
 	
     //2nd: Get a random subset of nodes by shuffling list.
-    Collections.shuffle(nodeList);
-    if(reservationsToLaunch < nodeList.size()){
-		for(int i = 0; i< reservationsToLaunch; i++){
+    Collections.shuffle(tmp_nl);
+    if(reservationsToLaunch < tmp_nl.size()){
+		for(int i = 0; i < reservationsToLaunch + (numTasks - count); i++){
 			nodeList.add(tmp_nl.get(i));
 		}
 	}
 //      nodeList = nodeList.subList(0, reservationsToLaunch);
-
     for (TTaskSpec task : schedulingRequest.getTasks()) {
       TTaskLaunchSpec taskLaunchSpec = new TTaskLaunchSpec(task.getTaskId(),
                                                            task.bufferForMessage());
