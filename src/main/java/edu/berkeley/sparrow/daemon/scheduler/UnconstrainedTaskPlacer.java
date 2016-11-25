@@ -91,7 +91,8 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
     int reservationsToLaunch = (int) Math.ceil((probeRatio - 1) * numTasks);
     LOG.debug("Request " + requestId + ": Creating " + reservationsToLaunch +
               " task reservations for " + numTasks + " tasks");
-    List<InetSocketAddress> nodeList = Lists.newArrayList(nodes);
+    List<InetSocketAddress> tmp_nl = Lists.newArrayList(nodes);
+    List<InetSocketAddress> nodeList = Lists.newArrayList();
 	//1st: get the reservationList from hash table
 	Iterator us_iter = nmUsages.entrySet().iterator();
 	int count = 0;
@@ -113,7 +114,7 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
     Collections.shuffle(nodeList);
     if(reservationsToLaunch < nodeList.size()){
 		for(int i = 0; i< reservationsToLaunch; i++){
-			nodeList.add(nodeList.get(i));
+			nodeList.add(tmp_nl.get(i));
 		}
 	}
 //      nodeList = nodeList.subList(0, reservationsToLaunch);
