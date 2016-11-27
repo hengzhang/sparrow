@@ -117,10 +117,12 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
     //2nd: Get a random subset of nodes by shuffling list.
     Collections.shuffle(tmp_nl);
     if(reservationsToLaunch < tmp_nl.size()){
-		for(int i = 0; i < reservationsToLaunch + (numTasks - count); i++){
-			nodeList.add(tmp_nl.get(i));
-		}
-	}
+	    for(int i = 0; i < reservationsToLaunch + (numTasks - count); i++){
+		    nodeList.add(tmp_nl.get(i));
+	    }
+    }else if(nodeList.size() == 0){
+	nodeList = tmp_nl;
+    }
 //      nodeList = nodeList.subList(0, reservationsToLaunch);
     for (TTaskSpec task : schedulingRequest.getTasks()) {
       TTaskLaunchSpec taskLaunchSpec = new TTaskLaunchSpec(task.getTaskId(),
