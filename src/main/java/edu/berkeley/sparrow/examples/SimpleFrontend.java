@@ -118,8 +118,8 @@ public class SimpleFrontend implements FrontendService.Iface {
     try {
       OptionParser parser = new OptionParser();
       parser.accepts("c", "configuration file").withRequiredArg().ofType(String.class);
-      parser.accepts("f", "configuration file").withRequiredArg().ofType(String.class);
-      parser.accepts("l", "configuration file").withRequiredArg().ofType(Integer.class);
+      parser.accepts("f", "trace file").withRequiredArg().ofType(String.class);
+      parser.accepts("l", "read lines").withRequiredArg().ofType(Integer.class);
       parser.accepts("help", "print help statement");
       OptionSet options = parser.parse(args);
       String filename = null;
@@ -192,8 +192,8 @@ public class SimpleFrontend implements FrontendService.Iface {
              String[] strArray = tempString.split(" ");
              delayPerJob[tline] = Integer.valueOf(strArray[0]).intValue();
              tasksPerJob[tline] = Integer.valueOf(strArray[1]).intValue();
-	     double tempduration = Double.valueOf(strArray[2]).doubleValue();
-             taskDurationMillis[tline] = (int)(tempduration*100);
+			 double tempduration = Double.valueOf(strArray[2]).doubleValue();
+             taskDurationMillis[tline] = (int)(tempduration);
           }
           tline++;
         }

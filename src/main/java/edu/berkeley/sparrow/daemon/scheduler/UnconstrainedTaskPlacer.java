@@ -105,7 +105,7 @@ public class UnconstrainedTaskPlacer implements TaskPlacer {
 		Integer temp_us = (Integer) entry.getValue();
 		//node have 5 empty slots(set a dynamic variable)
 		// & the time is fresh (< 1s)
-		if((temp_us > 5) && ((date.getTime() - nmTime.get(temp_nd)) < 1000)){
+		if((temp_us > 2) && ((date.getTime() - nmTime.get(temp_nd)) < 500)){
 			count++;
 			nodeList.add(temp_nd);
 		}
